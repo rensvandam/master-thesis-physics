@@ -30,45 +30,46 @@ pip install -r requirements.txt
 ## Quick Start
 
 ```python
-from project.model.sample import Alexa647
-from project.model.detection import Spad23
-from project.model.setup import ScanningSetup
+from project.simulations.examples.run_scanning_experiment import run_scanning_experiment
 
-# Create fluorescent emitters
-emitter = Alexa647(position=(0, 0), laser_power=1e-3)
+# Run a scanning microscopy simulation
+setup, photon_map, G2_map, n_emitters_map, metadata = run_scanning_experiment(
+    emitter_density=3,      # emitters per μm²
+    laser_power=50e3,       # W/cm²
+    dwell_time=1.0,         # ms per position
+    area_size=(2.0, 2.0),   # μm
+    positions=(10, 10),     # scan grid
+    show_plots=True,
+    save_data=False
+)
 
-# Configure SPAD detector
-sensor = Spad23(magnification=100, dead_time=100e-9)
-
-# Run scanning microscopy simulation
-setup = ScanningSetup(sensor=sensor, emitters=[emitter])
-results = setup.run_experiment(scan_time=1e-3)
+print(f"Detected {photon_map.sum():.0f} photons")
+print(f"Ground truth: {len(metadata['emitter_positions'])} emitters")
 ```
 
-See `project/simulations/example.py` for a complete working example.
+See `project/simulations/examples/` for more examples.
 
 ## Project Structure
 
 ```
 spad-smlm/
-├── project/                    # Main codebase
-│   ├── model/                  # Core modules (see model/README.md)
+├── project/
+│   ├── model/                  # Core modules
 │   │   ├── sample.py           # Fluorescent emitter models
 │   │   ├── detection.py        # SPAD sensor implementations
 │   │   ├── localization.py     # Localization algorithms
-│   │   ├── localization_speed.py # Numba-optimized localization
 │   │   ├── ISMprocessor.py     # Image Scanning Microscopy processing
-│   │   ├── coherence_*.py      # Coherence analysis tools
-│   │   └── setup.py            # Experimental setup configurations
-│   ├── simulations/            # Example scripts and experiments
-│   │   ├── example.py          # Basic usage example
-│   │   ├── run_scanning_experiment.py
-│   │   └── deprecated/         # Older experimental scripts
+│   │   ├── coherence_from_data.py  # Coherence analysis
+│   │   ├── setup.py            # Experimental setup
+│   │   └── helper_functions.py # Utilities
+│   ├── simulations/
+│   │   ├── examples/           # Start here
+│   │   ├── evaluation/         # Localization performance analysis
+│   │   ├── experiments/        # Parameter studies
+│   │   └── notebooks/          # Jupyter notebooks
 │   ├── test/                   # Unit tests
-│   └── data/                   # Configuration files (psf.json)
-├── archive/                    # Historical results and meeting materials
-├── requirements.txt            # Python dependencies
-└── MEP_report_HeikeSmedes.pdf  # Related prior thesis for reference
+│   └── data/                   # Configuration (psf.json)
+└── requirements.txt
 ```
 
 ## Key Features
