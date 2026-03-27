@@ -1,0 +1,26 @@
+# IDE
+.idea/
+*.pyc
+__pycache__/
+
+# Virtual environment
+.venv/
+
+# Archive (historical results and meeting materials)
+archive/
+
+# Personal/administrative folders
+administration/
+books/
+literature/
+
+# Large data files (if regeneratable)
+*.h5
+*.npy
+
+# Keep psf.json (required for localization)
+!project/data/psf.json
+
+# Temporary files
+*.tmp
+.DS_Store

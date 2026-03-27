@@ -1,0 +1,21 @@
+{
+  "n_runs": 1,
+  "base_params": {
+    "emitter_density": 2,
+    "laser_power": 50000.0,
+    "dwell_time": 0.5,
+    "area_size": [
+      1.5,
+      1.5
+    ],
+    "positions": [
+      5,
+      5
+    ],
+    "show_plots": false,
+    "save_data": false,
+    "seed": 123
+  },
+  "timestamp": "20260327_121914",
+  "description": "Monte Carlo evaluation of localization algorithm"
+}
